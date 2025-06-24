@@ -1,0 +1,132 @@
+pcall(function() game:GetService("CoreGui"):FindFirstChild("FosilHubLauncher"):Destroy() end)
+
+local autoWin = false
+
+local function teleportToTeleportPart()
+	local player = game.Players.LocalPlayer
+	local char = player.Character or player.CharacterAdded:Wait()
+	local hrp = char:WaitForChild("HumanoidRootPart")
+	local tpPart = workspace:FindFirstChild("TeleportParts") and workspace.TeleportParts:FindFirstChild("TeleportPart1")
+
+	if tpPart and hrp then
+		hrp.CFrame = tpPart.CFrame + Vector3.new(0, 3, 0)
+	end
+end
+
+local function teleportToWinPart()
+	local player = game.Players.LocalPlayer
+	local char = player.Character or player.CharacterAdded:Wait()
+	local hrp = char:WaitForChild("HumanoidRootPart")
+	local winPart = workspace:FindFirstChild("Map") and workspace.Map:FindFirstChild("ççç~~~'''´´´` ´")
+
+	if winPart and hrp then
+		hrp.CFrame = winPart.CFrame + Vector3.new(0, 3, 0)
+	end
+end
+
+task.spawn(function()
+	while true do
+		if autoWin then
+			teleportToTeleportPart()
+			task.wait(1)
+			teleportToWinPart()
+		end
+		task.wait(20)
+	end
+end)
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "FosilHubLauncher"
+gui.ResetOnSpawn = false
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+gui.IgnoreGuiInset = true
+gui.Parent = game:GetService("CoreGui")
+
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 260, 0, 140)
+frame.Position = UDim2.new(0.5, -130, 0.5, -70)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, 0, 0, 30)
+title.Position = UDim2.new(0, 0, 0, 0)
+title.Text = "🛠️ Fosil Hub - Chọn GUI"
+title.TextColor3 = Color3.new(1, 1, 1)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 16
+title.BackgroundTransparency = 1
+
+local fluentBtn = Instance.new("TextButton", frame)
+fluentBtn.Size = UDim2.new(1, -40, 0, 40)
+fluentBtn.Position = UDim2.new(0, 20, 0, 40)
+fluentBtn.Text = "Fluent GUI"
+fluentBtn.Font = Enum.Font.GothamBold
+fluentBtn.TextSize = 14
+fluentBtn.TextColor3 = Color3.new(1, 1, 1)
+fluentBtn.BackgroundColor3 = Color3.fromRGB(100, 180, 255)
+
+local orionBtn = fluentBtn:Clone()
+orionBtn.Text = "Orion GUI"
+orionBtn.Position = UDim2.new(0, 20, 0, 90)
+orionBtn.BackgroundColor3 = Color3.fromRGB(255, 100, 80)
+orionBtn.Parent = frame
+
+local function launchFluent()
+	local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+	local Window = Fluent:CreateWindow({
+		Title = "Fosil Hub (Fluent)",
+		SubTitle = "by slorus",
+		TabWidth = 160,
+		Size = UDim2.fromOffset(580, 460),
+		Acrylic = true,
+		Theme = "Darker",
+		MinimizeKey = Enum.KeyCode.LeftControl
+	})
+
+	local Tab = Window:AddTab({ Title = "Main", Icon = "crown" })
+	Tab:AddToggle("AutoWin", {
+		Title = "Auto Win",
+		Description = "Auto Teleport mỗi 20s",
+		Default = false,
+		Callback = function(state)
+			autoWin = state
+		end
+	})
+end
+
+local function launchOrion()
+	local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
+	local Window = OrionLib:MakeWindow({
+		Name = "Fosil Hub (Orion)",
+		HidePremium = false,
+		SaveConfig = false
+	})
+
+	local Tab = Window:MakeTab({
+		Name = "Main",
+		Icon = "rbxassetid://4483345998",
+		PremiumOnly = false
+	})
+
+	Tab:AddToggle({
+		Name = "Auto Win",
+		Default = false,
+		Callback = function(Value)
+			autoWin = Value
+		end
+	})
+
+	OrionLib:Init()
+end
+
+-- 🖱️ Gắn nút
+fluentBtn.MouseButton1Click:Connect(function()
+	gui:Destroy()
+	launchFluent()
+end)
+
+orionBtn.MouseButton1Click:Connect(function()
+	gui:Destroy()
+	launchOrion()
+end)
