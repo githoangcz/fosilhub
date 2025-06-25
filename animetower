@@ -1,10 +1,7 @@
--- 🧹 Xoá GUI launcher cũ
 pcall(function() game:GetService("CoreGui"):FindFirstChild("FosilHubLauncher"):Destroy() end)
 
--- 📌 Biến điều khiển
 local autoWin = false
 
--- 🧭 Hàm teleport
 local function teleportToTeleportPart()
 	local player = game.Players.LocalPlayer
 	local char = player.Character or player.CharacterAdded:Wait()
@@ -27,7 +24,6 @@ local function teleportToWinPart()
 	end
 end
 
--- 🔁 Auto Win Loop (delay: 20s)
 task.spawn(function()
 	while true do
 		if autoWin then
@@ -39,7 +35,6 @@ task.spawn(function()
 	end
 end)
 
--- 🧰 GUI chọn Library
 local gui = Instance.new("ScreenGui")
 gui.Name = "FosilHubLauncher"
 gui.ResetOnSpawn = false
@@ -56,7 +51,7 @@ frame.BorderSizePixel = 0
 local title = Instance.new("TextLabel", frame)
 title.Size = UDim2.new(1, 0, 0, 30)
 title.Position = UDim2.new(0, 0, 0, 0)
-title.Text = "🛠️ Fosil Hub - Chọn GUI"
+title.Text = "🛠️ Fosil Hub - Select GUI"
 title.TextColor3 = Color3.new(1, 1, 1)
 title.Font = Enum.Font.GothamBold
 title.TextSize = 16
@@ -77,7 +72,6 @@ orionBtn.Position = UDim2.new(0, 20, 0, 90)
 orionBtn.BackgroundColor3 = Color3.fromRGB(255, 100, 80)
 orionBtn.Parent = frame
 
--- 📘 Load Fluent
 local function launchFluent()
 	local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 	local Window = Fluent:CreateWindow({
@@ -93,7 +87,7 @@ local function launchFluent()
 	local Tab = Window:AddTab({ Title = "Main", Icon = "crown" })
 	Tab:AddToggle("AutoWin", {
 		Title = "Auto Win",
-		Description = "Auto Teleport mỗi 20s",
+		Description = "Auto teleport every 20s",
 		Default = false,
 		Callback = function(state)
 			autoWin = state
@@ -101,7 +95,6 @@ local function launchFluent()
 	})
 end
 
--- 📕 Load Orion
 local function launchOrion()
 	local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
 	local Window = OrionLib:MakeWindow({
@@ -127,7 +120,6 @@ local function launchOrion()
 	OrionLib:Init()
 end
 
--- 🖱️ Gắn nút
 fluentBtn.MouseButton1Click:Connect(function()
 	gui:Destroy()
 	launchFluent()
