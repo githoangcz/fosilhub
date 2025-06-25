@@ -1,3 +1,23 @@
+-- 🛡️ Anti-Kick
+local mt = getrawmetatable(game)
+local backupNamecall = mt.__namecall
+setreadonly(mt, false)
+
+mt.__namecall = newcclosure(function(self, ...)
+	local method = getnamecallmethod()
+	local args = {...}
+
+	if tostring(method) == "Kick" or tostring(self) == "Kick" then
+		warn("[Fosil Hub] Blocked kick attempt!")
+		return -- Chặn việc bị kick
+	end
+
+	return backupNamecall(self, unpack(args))
+end)
+
+setreadonly(mt, true)
+
+
 pcall(function() game:GetService("CoreGui"):FindFirstChild("FosilHubLauncher"):Destroy() end)
 
 local autoWin = false
